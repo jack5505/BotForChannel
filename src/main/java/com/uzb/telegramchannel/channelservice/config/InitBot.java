@@ -18,10 +18,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
  */
 @Configuration
 public class InitBot {
+
     private static String PROXY_HOST = "172.16.10.3" /* proxy host */;
     private static Integer PROXY_PORT = 3128 /* proxy port */;
-    private  static String TOKEN="1716937771:AAHg5Z3AZFQOu9sW9m0bjB2sCcQiM4vb-IE";
-    private static  String BOT_USERNAME="OFB_SERVICE";
+    private  static String TOKEN="1897763343:AAG0Z4YgHAWTClalHxBGpbcQR0ftix6E5_c";
+    private static  String BOT_USERNAME="CHANNEL_SERVICE";
 
     @Bean
     public ChannelHandlers GetBotBean() {
@@ -38,7 +39,6 @@ public class InitBot {
             // Register your newly created AbilityBot
             bot = new ChannelHandlers(botOptions,BOT_USERNAME,TOKEN);
             botsApi.registerBot(bot);
-
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
