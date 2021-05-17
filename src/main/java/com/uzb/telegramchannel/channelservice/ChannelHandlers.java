@@ -54,6 +54,10 @@ public class ChannelHandlers extends TelegramLongPollingBot {
        Message message =  update.getMessage();
        //if(update.getMessage().isChannelMessage())
        //{
+
+            if(update.hasCallbackQuery()){
+                update.getCallbackQuery().getFrom().getId();
+            }
            //Save Answers
            if(update.getMessage().getText().equals("answers"))
            {
