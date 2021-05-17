@@ -8,6 +8,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 /*
@@ -56,6 +57,7 @@ public class ChannelHandlers extends TelegramLongPollingBot {
            //Save Answers
            if(update.getMessage().getText().equals("answers"))
            {
+               //TODO custil
                 cnt = 4;
                 sendMessage(update.getMessage().getChat().getId());
                 return;
@@ -64,11 +66,11 @@ public class ChannelHandlers extends TelegramLongPollingBot {
                //TODO check to put here correct input field
                //Template text (t,f)
                 saveIntoDbService.createAnswersToQuestion(update.getMessage().getText());
-                sednMessageCustom(update.getMessage().getChatId(),"Javob saqlandi");
+                sendMessageCustom(update.getMessage().getChatId(),"Javob saqlandi");
                 cnt--;
            }
            if(cnt == 0){
-                // generateReply.generateReplyes();
+                sendMessage(sendMessageAnswers(update.getMessage().getChatId(),"Javoblar", generateReply.generateReplyes()));
            }
        //}
 
@@ -88,9 +90,17 @@ public class ChannelHandlers extends TelegramLongPollingBot {
         }
     }
 
-    private void sednMessageCustom(Long chatId,String text){
+    private void sendMessageCustom(Long chatId, String text){
         try {
             execute(sendMessageCustomText(chatId,text));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessage(SendMessage sendMessage){
+        try {
+            execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -99,5 +109,9 @@ public class ChannelHandlers extends TelegramLongPollingBot {
 
     private SendMessage sendMessageCustomText(Long chatId,String text){
         return generateMessage(chatId).setText(text);
+    }
+
+    private SendMessage sendMessageAnswers(Long chatId, String text, InlineKeyboardMarkup inlineKeyboardMarkup){
+        return sendMessageCustomText(chatId,text).setReplyMarkup(inlineKeyboardMarkup);
     }
 }

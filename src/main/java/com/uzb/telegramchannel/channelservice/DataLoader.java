@@ -1,7 +1,5 @@
 package com.uzb.telegramchannel.channelservice;
 
-import com.uzb.telegramchannel.channelservice.entity.AnswersEntity;
-import com.uzb.telegramchannel.channelservice.entity.QuestionEntity;
 import com.uzb.telegramchannel.channelservice.repository.AnswerRepository;
 import com.uzb.telegramchannel.channelservice.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +16,18 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private AnswerRepository answerRepository;
 
+
+
     @Autowired
     private QuestionRepository questionRepository;
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("Start");
+        answerRepository.getLast(4).forEach(answersEntity -> {
+            System.out.println(answersEntity.getAnswer() + " " + answersEntity.getId());
+        });
+
 
        /* QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setQuestionText("what is your name");
