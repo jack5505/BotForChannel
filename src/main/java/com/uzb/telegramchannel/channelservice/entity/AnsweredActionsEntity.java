@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "answered_actions")
-public class AnsweredActions {
+public class AnsweredActionsEntity {
     @Id
     @GeneratedValue
     private Long id;

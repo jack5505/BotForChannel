@@ -24,7 +24,7 @@ public class UserAnsweredEntity {
 
     @OneToMany
     @JoinColumn(name = "user_id")
-    List<AnsweredActions> listAnswers = new ArrayList<>();
+    List<AnsweredActionsEntity> listAnswers = new ArrayList<>();
 
     public Long getUserId() {
         return userId;
@@ -58,11 +58,11 @@ public class UserAnsweredEntity {
         this.userName = userName;
     }
 
-    public List<AnsweredActions> getListAnswers() {
+    public List<AnsweredActionsEntity> getListAnswers() {
         return listAnswers;
     }
 
-    public void setListAnswers(List<AnsweredActions> listAnswers) {
+    public void setListAnswers(List<AnsweredActionsEntity> listAnswers) {
         this.listAnswers = listAnswers;
     }
 }

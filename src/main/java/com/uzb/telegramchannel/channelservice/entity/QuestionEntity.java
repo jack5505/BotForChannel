@@ -27,7 +27,7 @@ public class QuestionEntity {
 
     @OneToMany
     @JoinColumn(name = "question_id")
-    private List<AnsweredActions> answeredActions = new ArrayList<>();
+    private List<AnsweredActionsEntity> answeredActions = new ArrayList<>();
 
 
     public Long getId() {
@@ -54,11 +54,11 @@ public class QuestionEntity {
         this.answersEntityList = answersEntityList;
     }
 
-    public List<AnsweredActions> getAnsweredActions() {
+    public List<AnsweredActionsEntity> getAnsweredActions() {
         return answeredActions;
     }
 
-    public void setAnsweredActions(List<AnsweredActions> answeredActions) {
+    public void setAnsweredActions(List<AnsweredActionsEntity> answeredActions) {
         this.answeredActions = answeredActions;
     }
 }
