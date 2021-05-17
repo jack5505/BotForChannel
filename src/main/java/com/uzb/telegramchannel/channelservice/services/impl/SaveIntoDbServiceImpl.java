@@ -1,6 +1,6 @@
 package com.uzb.telegramchannel.channelservice.services.impl;
 
-import com.uzb.telegramchannel.channelservice.services.GenerateReply;
+import com.uzb.telegramchannel.channelservice.services.SaveIntoDbService;
 import org.springframework.stereotype.Service;
 
 /*
@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class GenerateReplyImpl implements GenerateReply {
-
-
+public class SaveIntoDbServiceImpl implements SaveIntoDbService {
 
 }
