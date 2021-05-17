@@ -6,4 +6,5 @@ package com.uzb.telegramchannel.channelservice.services;
  *
  */
 public interface SaveIntoDbService {
+    void createAnswersToQuestion(String text);
 }
