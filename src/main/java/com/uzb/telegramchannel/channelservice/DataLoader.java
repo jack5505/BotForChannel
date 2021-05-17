@@ -24,7 +24,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        QuestionEntity questionEntity = new QuestionEntity();
+       /* QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setQuestionText("what is your name");
 
         for(int i = 1 ; i <= 4; i ++){
@@ -37,7 +37,6 @@ public class DataLoader implements CommandLineRunner {
         }
        // questionEntity.setAnswersEntityList(answerRepository.findAll());
         questionRepository.save(questionEntity);
-
-
+        */
     }
 }

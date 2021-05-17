@@ -39,8 +39,5 @@ public class ChannelHandlers extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
        Message message =  update.getMessage();
-
-
-
     }
 }
