@@ -20,7 +20,7 @@ public class QuestionEntity {
     private String questionText;
 
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany
     @JoinColumn(name = "question_id")
     private List<AnswersEntity> answersEntityList = new ArrayList<>();
 

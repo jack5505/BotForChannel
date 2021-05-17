@@ -21,6 +21,19 @@ public class AnswersEntity {
     @Column
     private Boolean answer;
 
+    @Column
+    private String answerDescription;
+
+    @ManyToOne
+    private QuestionEntity questionEntity;
+
+    public QuestionEntity getQuestionEntity() {
+        return questionEntity;
+    }
+
+    public void setQuestionEntity(QuestionEntity questionEntity) {
+        this.questionEntity = questionEntity;
+    }
 
     public Long getId() {
         return id;
@@ -44,5 +57,13 @@ public class AnswersEntity {
 
     public void setAnswer(Boolean answer) {
         this.answer = answer;
+    }
+
+    public String getAnswerDescription() {
+        return answerDescription;
+    }
+
+    public void setAnswerDescription(String answerDescription) {
+        this.answerDescription = answerDescription;
     }
 }
