@@ -37,7 +37,7 @@ public class ChannelHandlers extends TelegramLongPollingBot {
         this.TOKEN = TOKEN;
     }
 
-    private static   int cnt = 0;
+    private static   int cnt = -1;
 
     @Override
     public String getBotUsername() {
@@ -55,8 +55,16 @@ public class ChannelHandlers extends TelegramLongPollingBot {
        //if(update.getMessage().isChannelMessage())
        //{
 
+            if(cnt == -1)
+            {
+                if(update.getMessage().hasText())
+                    saveIntoDbService.saveQuestion(update.getMessage());
+                cnt = 0;
+                sendMessage(sendMessageCustomText(update.getMessage().getChatId(),"Savol saqlandi"));
+                return;
+            }
             if(update.hasCallbackQuery()){
-                update.getCallbackQuery().getFrom().getId();
+                saveIntoDbService.saveAnswer(update.getCallbackQuery().getData(),update.getCallbackQuery().getFrom());
             }
            //Save Answers
            if(update.getMessage().getText().equals("answers"))
