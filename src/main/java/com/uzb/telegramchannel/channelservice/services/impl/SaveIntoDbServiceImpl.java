@@ -51,6 +51,11 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
        if(answersEntity.isPresent())
        {
            Optional<QuestionEntity> questionEntity =  questionRepository.findById(answersEntity.get().getQuestionEntity().getId());
+           if(questionEntity.isPresent()){
+                Optional<AnsweredActionsEntity> answeredActionsEntity =
+                        answeredActionsRepository
+                                .findQuestionByUserId(userAnsweredEntity.getUserId(),questionEntity.get().getId());
+           }
            AnsweredActionsEntity answeredActionsEntity = new AnsweredActionsEntity();
            answeredActionsEntity.setAnswersEntity(answersEntity.get());
            answeredActionsEntity.setQuestionEntity(questionEntity.get());
@@ -68,13 +73,17 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
     }
 
     private UserAnsweredEntity saveUser(User from) {
-        UserAnsweredEntity userAnsweredEntity = userAnsweredEntity();
-        userAnsweredEntity.setUserId(Long.parseLong(from.getId() + ""));
-        userAnsweredEntity.setFirstName(from.getFirstName());
-        userAnsweredEntity.setLastName(from.getLastName());
-        userAnsweredEntity.setUserName(from.getUserName());
-        userAnsweredRepository.save(userAnsweredEntity);
-        return userAnsweredEntity;
+        Optional<UserAnsweredEntity> found = userAnsweredRepository.findById(Long.parseLong(from.getId()+""));
+        if(!found.isPresent()) {
+            UserAnsweredEntity userAnsweredEntity = userAnsweredEntity();
+            userAnsweredEntity.setUserId(Long.parseLong(from.getId() + ""));
+            userAnsweredEntity.setFirstName(from.getFirstName());
+            userAnsweredEntity.setLastName(from.getLastName());
+            userAnsweredEntity.setUserName(from.getUserName());
+            userAnsweredRepository.save(userAnsweredEntity);
+            return userAnsweredEntity;
+        }
+        return found.get();
     }
 
     private UserAnsweredEntity userAnsweredEntity(){

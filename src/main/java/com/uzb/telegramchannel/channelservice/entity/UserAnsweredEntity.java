@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "user_answered")
 public class UserAnsweredEntity {
-
     @Id
     private Long userId;
 

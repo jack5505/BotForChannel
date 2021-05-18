@@ -1,6 +1,8 @@
 package com.uzb.telegramchannel.channelservice.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  *
@@ -24,7 +26,20 @@ public class AnswersEntity {
     @Column
     private String answerDescription;
 
+    @OneToMany
+    @JoinColumn(name = "answer_id")
+    private List<AnsweredActionsEntity> answeredActionsEntity = new ArrayList<>();
+
+    public List<AnsweredActionsEntity> getAnsweredActionsEntity() {
+        return answeredActionsEntity;
+    }
+
+    public void setAnsweredActionsEntity(List<AnsweredActionsEntity> answeredActionsEntity) {
+        this.answeredActionsEntity = answeredActionsEntity;
+    }
+
     @ManyToOne
+    @JoinColumn(name = "question_id")
     private QuestionEntity questionEntity;
 
     public QuestionEntity getQuestionEntity() {

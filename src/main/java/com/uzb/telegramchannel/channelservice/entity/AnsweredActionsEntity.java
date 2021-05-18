@@ -20,10 +20,26 @@ public class AnsweredActionsEntity {
 
 
     @ManyToOne
+    @JoinColumn(name = "question_id")
     private QuestionEntity questionEntity;
 
     @ManyToOne
+    @JoinColumn(name = "answer_id")
     private AnswersEntity answersEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserAnsweredEntity userAnsweredEntity;
+
+
+
+    public UserAnsweredEntity getUserAnsweredEntity() {
+        return userAnsweredEntity;
+    }
+
+    public void setUserAnsweredEntity(UserAnsweredEntity userAnsweredEntity) {
+        this.userAnsweredEntity = userAnsweredEntity;
+    }
 
     public QuestionEntity getQuestionEntity() {
         return questionEntity;
