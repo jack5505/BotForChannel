@@ -60,7 +60,7 @@ public class GenerateReplyImpl implements GenerateReply {
     }
 
     private String makeAnswer(AnswersEntity answersEntity) {
-        return (answersEntity.getAnswer() ? EmojiParser.parseToUnicode(":100:") : EmojiParser.parseToUnicode(":-1:")) + answersEntity.getAnswerText();
+        return (answersEntity.getAnswer() ? EmojiParser.parseToUnicode(":100:") + "  Topdingiz " : EmojiParser.parseToUnicode(":-1:") + " Yana bir urinib ko`ring ") + answersEntity.getAnswerText();
     }
 
     private InlineKeyboardButton generateButton(String text){
