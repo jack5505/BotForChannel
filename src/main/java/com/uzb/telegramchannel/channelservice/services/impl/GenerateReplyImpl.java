@@ -23,31 +23,21 @@ public class GenerateReplyImpl implements GenerateReply {
     @Autowired
     private AnswerRepository answerRepository;
 
-    private Boolean used[] = new Boolean[4];
-
     @Override
     public InlineKeyboardMarkup generateReplyes() {
         List<List<InlineKeyboardButton>> lists = new ArrayList<>();
         List<InlineKeyboardButton> list = new ArrayList<>();
         int cnt = 0;
         //TODO custil 4
-        List<AnswersEntity> answersList = answerRepository.getLast(4);
-        for(int i = 0 ; i < answersList.size(); i ++){
-            int random = 0;
-            if(i == 0)
-                random = new Random().nextInt(4);
-            else{
-                while (used[random])
-                    random++;
-            }
+        for(AnswersEntity i : answerRepository.getLast(4)) {
             if(cnt % 2 == 0){
                 lists.add(list);
                 list = new ArrayList<>();
             }
-            list.add(generateButtonTextCallback(answersList.get(random).getAnswerText(),answersList.get(random).getId()));
-            used[random] = true;
+            list.add(generateButtonTextCallback(i.getAnswerText(),i.getId()));
             cnt++;
         }
+        lists.add(list);
         return new InlineKeyboardMarkup().setKeyboard(lists);
     }
 
@@ -57,6 +47,7 @@ public class GenerateReplyImpl implements GenerateReply {
     private InlineKeyboardButton generateButtonTextCallback(String text,Long callbackDataId){
         return generateButton(text).setCallbackData(callbackDataId + "");
     }
+
 
 
 }

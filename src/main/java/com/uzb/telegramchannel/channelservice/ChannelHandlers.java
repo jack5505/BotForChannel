@@ -54,7 +54,11 @@ public class ChannelHandlers extends TelegramLongPollingBot {
        Message message =  update.getMessage();
        //if(update.getMessage().isChannelMessage())
        //{
-
+            if(message.getText().equals("/start")){
+                cnt = -1;
+                sendMessage(sendMessageCustomText(message.getChatId(),"Restart everything"));
+                return;
+            }
             if(cnt == -1)
             {
                 if(update.getMessage().hasText())

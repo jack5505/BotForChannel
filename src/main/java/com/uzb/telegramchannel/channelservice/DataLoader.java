@@ -23,11 +23,6 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Start");
-        answerRepository.getLast(4).forEach(answersEntity -> {
-            System.out.println(answersEntity.getAnswer() + " " + answersEntity.getId());
-        });
-
 
        /* QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setQuestionText("what is your name");

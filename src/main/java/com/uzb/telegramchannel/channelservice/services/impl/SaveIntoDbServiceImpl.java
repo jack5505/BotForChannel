@@ -33,7 +33,9 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
 
     @Override
     public void createAnswersToQuestion(String text) {
-            answerRepository.save(setCorrectAnswer(getAnswerText(text),getCorrectAnswer(text)));
+            if(questionRepository.findTopByOrderByIdDesc() != null){
+                answerRepository.save(setCorrectAnswerWithQuestionId(getAnswerText(text),getCorrectAnswer(text),questionRepository.findTopByOrderByIdDesc().getId()));
+            }
     }
 
     @Override
@@ -83,6 +85,11 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
         answersEntity.setAnswer(correct);
         return answersEntity;
     }
+    private AnswersEntity setCorrectAnswerWithQuestionId(String text,Boolean correct,Long questionId){
+        AnswersEntity answersEntity = setCorrectAnswer(text,correct);
+        answersEntity.setQuestionEntity(questionRepository.findById(questionId).get());
+        return answersEntity;
+    }
     private String getAnswerText(String text){
         return text.substring(0,text.indexOf(" "));
     }
@@ -90,7 +97,7 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
     {
         if(text != null
                 && text.indexOf(" ") != -1
-                && text.substring(text.indexOf(" ")).toLowerCase().equals("t"))
+                && text.substring(text.indexOf(" ") + 1).toLowerCase().equals("t"))
         {
             return true;
         }else{

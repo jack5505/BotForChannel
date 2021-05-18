@@ -1,5 +1,7 @@
 package com.uzb.telegramchannel.channelservice;
 
+import java.util.Scanner;
+
 /*
  *
  *  @author Sabirov Jakhongir
@@ -7,7 +9,22 @@ package com.uzb.telegramchannel.channelservice;
  */
 public class Test {
     public static void main(String[] args) {
-        String text ="few";
-        System.out.println(text.indexOf(" "));
+        Scanner cin = new Scanner(System.in);
+        int t = cin.nextInt();
+        while (t-- > 0)
+        {
+            int n = cin.nextInt();
+            int temp = n;
+            int cnt = 0;
+            while (n >= 2020){
+                n -= 2020;
+                cnt ++;
+            }
+            if(cnt >= n && ((cnt - n) * 2020 + (n * 2021)) == temp){
+                System.out.println("YES");
+            }else{
+                System.out.println("NO");
+            }
+        }
     }
 }
