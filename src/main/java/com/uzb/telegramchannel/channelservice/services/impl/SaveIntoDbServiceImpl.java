@@ -52,16 +52,18 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
        {
            Optional<QuestionEntity> questionEntity =  questionRepository.findById(answersEntity.get().getQuestionEntity().getId());
            if(questionEntity.isPresent()){
-                Optional<AnsweredActionsEntity> answeredActionsEntity =
+                Optional<AnsweredActionsEntity> checkEverAnsweredToQuestion =
                         answeredActionsRepository
                                 .findQuestionByUserId(userAnsweredEntity.getUserId(),questionEntity.get().getId());
+                if(!checkEverAnsweredToQuestion.isPresent()){
+                    AnsweredActionsEntity answeredActionsEntity = new AnsweredActionsEntity();
+                    answeredActionsEntity.setAnswersEntity(answersEntity.get());
+                    answeredActionsEntity.setQuestionEntity(questionEntity.get());
+                    answeredActionsRepository.save(answeredActionsEntity);
+                    userAnsweredEntity.getListAnswers().add(answeredActionsEntity);
+                    userAnsweredRepository.save(userAnsweredEntity);
+                }
            }
-           AnsweredActionsEntity answeredActionsEntity = new AnsweredActionsEntity();
-           answeredActionsEntity.setAnswersEntity(answersEntity.get());
-           answeredActionsEntity.setQuestionEntity(questionEntity.get());
-           answeredActionsRepository.save(answeredActionsEntity);
-           userAnsweredEntity.getListAnswers().add(answeredActionsEntity);
-           userAnsweredRepository.save(userAnsweredEntity);
        }
     }
 
