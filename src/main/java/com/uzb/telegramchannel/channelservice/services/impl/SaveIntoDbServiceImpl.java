@@ -55,7 +55,7 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
                 Optional<AnsweredActionsEntity> checkEverAnsweredToQuestion =
                         answeredActionsRepository
                                 .findQuestionByUserId(userAnsweredEntity.getUserId(),questionEntity.get().getId());
-                if(!checkEverAnsweredToQuestion.isPresent()){
+                if(checkEverAnsweredToQuestion.isEmpty()){
                     AnsweredActionsEntity answeredActionsEntity = new AnsweredActionsEntity();
                     answeredActionsEntity.setAnswersEntity(answersEntity.get());
                     answeredActionsEntity.setQuestionEntity(questionEntity.get());
@@ -76,7 +76,7 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
 
     private UserAnsweredEntity saveUser(User from) {
         Optional<UserAnsweredEntity> found = userAnsweredRepository.findById(Long.parseLong(from.getId()+""));
-        if(!found.isPresent()) {
+        if(found.isEmpty()) {
             UserAnsweredEntity userAnsweredEntity = userAnsweredEntity();
             userAnsweredEntity.setUserId(Long.parseLong(from.getId() + ""));
             userAnsweredEntity.setFirstName(from.getFirstName());

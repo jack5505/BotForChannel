@@ -5,6 +5,7 @@ import com.uzb.telegramchannel.channelservice.services.SaveIntoDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -56,6 +57,8 @@ public class ChannelHandlers extends TelegramLongPollingBot {
        //{
         if(update.hasCallbackQuery()){
             saveIntoDbService.saveAnswer(update.getCallbackQuery().getData(),update.getCallbackQuery().getFrom());
+            sendMessage(generateReply.generateAnswerCallbackQuery(update.getCallbackQuery().getId(),update.getCallbackQuery().getData()));
+            return;
         }
         if(message.getText().equals("/start")){
                 cnt = -1;
@@ -118,6 +121,14 @@ public class ChannelHandlers extends TelegramLongPollingBot {
     private void sendMessage(SendMessage sendMessage){
         try {
             execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessage(AnswerCallbackQuery answerCallbackQuery){
+        try {
+            execute(answerCallbackQuery);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

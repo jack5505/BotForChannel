@@ -19,4 +19,6 @@ public interface AnsweredActionsRepository extends JpaRepository<AnsweredActions
     @Query(value = "select * from answered_actions t where t.user_id = :userId and t.question_id = :questionId",nativeQuery = true)
     Optional<AnsweredActionsEntity> findQuestionByUserId(@Param("userId")Long userId, @Param("questionId")Long questionId);
 
+
+
 }
