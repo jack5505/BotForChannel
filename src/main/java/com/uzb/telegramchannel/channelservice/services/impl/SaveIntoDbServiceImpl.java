@@ -59,9 +59,8 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
                     AnsweredActionsEntity answeredActionsEntity = new AnsweredActionsEntity();
                     answeredActionsEntity.setAnswersEntity(answersEntity.get());
                     answeredActionsEntity.setQuestionEntity(questionEntity.get());
+                    answeredActionsEntity.setUserAnsweredEntity(userAnsweredEntity);
                     answeredActionsRepository.save(answeredActionsEntity);
-                    userAnsweredEntity.getListAnswers().add(answeredActionsEntity);
-                    userAnsweredRepository.save(userAnsweredEntity);
                 }
            }
        }

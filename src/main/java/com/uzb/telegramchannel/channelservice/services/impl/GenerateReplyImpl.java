@@ -4,6 +4,7 @@ import com.uzb.telegramchannel.channelservice.entity.AnswersEntity;
 import com.uzb.telegramchannel.channelservice.repository.AnswerRepository;
 import com.uzb.telegramchannel.channelservice.repository.AnsweredActionsRepository;
 import com.uzb.telegramchannel.channelservice.services.GenerateReply;
+import com.vdurmont.emoji.EmojiParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
@@ -13,7 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 /*
  *
@@ -54,9 +54,13 @@ public class GenerateReplyImpl implements GenerateReply {
         answerCallbackQuery.setCallbackQueryId(id);
         Optional<AnswersEntity> found = answerRepository.findById(Long.parseLong(data));
         if(found.isPresent()){
-            answerCallbackQuery.setText(":100: " + found.get().getAnswerText());
+            answerCallbackQuery.setText(makeAnswer(found.get()));
         }
         return answerCallbackQuery;
+    }
+
+    private String makeAnswer(AnswersEntity answersEntity) {
+        return (answersEntity.getAnswer() ? EmojiParser.parseToUnicode(":100:") : EmojiParser.parseToUnicode(":-1:")) + answersEntity.getAnswerText();
     }
 
     private InlineKeyboardButton generateButton(String text){
