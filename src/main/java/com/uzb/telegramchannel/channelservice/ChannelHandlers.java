@@ -54,40 +54,41 @@ public class ChannelHandlers extends TelegramLongPollingBot {
        Message message =  update.getMessage();
        //if(update.getMessage().isChannelMessage())
        //{
-            if(message.getText().equals("/start")){
+        if(update.hasCallbackQuery()){
+            saveIntoDbService.saveAnswer(update.getCallbackQuery().getData(),update.getCallbackQuery().getFrom());
+        }
+        if(message.getText().equals("/start")){
                 cnt = -1;
                 sendMessage(sendMessageCustomText(message.getChatId(),"Restart everything"));
                 return;
             }
-            if(cnt == -1)
-            {
-                if(update.getMessage().hasText())
+        if(cnt == -1)
+        {
+                if(update.getMessage().hasText()) {
                     saveIntoDbService.saveQuestion(update.getMessage());
+                }
                 cnt = 0;
                 sendMessage(sendMessageCustomText(update.getMessage().getChatId(),"Savol saqlandi"));
                 return;
-            }
-            if(update.hasCallbackQuery()){
-                saveIntoDbService.saveAnswer(update.getCallbackQuery().getData(),update.getCallbackQuery().getFrom());
-            }
+        }
            //Save Answers
-           if(update.getMessage().getText().equals("answers"))
-           {
+        if(update.getMessage().getText().equals("answers"))
+        {
                //TODO custil
                 cnt = 4;
                 sendMessage(update.getMessage().getChat().getId());
                 return;
-           }
-           if (cnt > 0){
+        }
+        if (cnt > 0){
                //TODO check to put here correct input field
                //Template text (t,f)
                 saveIntoDbService.createAnswersToQuestion(update.getMessage().getText());
                 sendMessageCustom(update.getMessage().getChatId(),"Javob saqlandi");
                 cnt--;
-           }
-           if(cnt == 0){
+        }
+        if(cnt == 0){
                 sendMessage(sendMessageAnswers(update.getMessage().getChatId(),"Javoblar", generateReply.generateReplyes()));
-           }
+        }
        //}
 
     }

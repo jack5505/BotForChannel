@@ -12,8 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "user_answered")
 public class UserAnsweredEntity {
+
     @Id
-    @GeneratedValue
     private Long userId;
 
     private String firstName;

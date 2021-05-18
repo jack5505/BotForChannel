@@ -21,12 +21,10 @@ public class QuestionEntity {
 
 
     @OneToMany
-    @JoinColumn(name = "question_id")
     private List<AnswersEntity> answersEntityList = new ArrayList<>();
 
 
     @OneToMany
-    @JoinColumn(name = "question_id")
     private List<AnsweredActionsEntity> answeredActions = new ArrayList<>();
 
 

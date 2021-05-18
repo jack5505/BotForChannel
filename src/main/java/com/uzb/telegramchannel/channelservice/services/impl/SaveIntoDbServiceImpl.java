@@ -1,9 +1,11 @@
 package com.uzb.telegramchannel.channelservice.services.impl;
 
+import com.uzb.telegramchannel.channelservice.entity.AnsweredActionsEntity;
 import com.uzb.telegramchannel.channelservice.entity.AnswersEntity;
 import com.uzb.telegramchannel.channelservice.entity.QuestionEntity;
 import com.uzb.telegramchannel.channelservice.entity.UserAnsweredEntity;
 import com.uzb.telegramchannel.channelservice.repository.AnswerRepository;
+import com.uzb.telegramchannel.channelservice.repository.AnsweredActionsRepository;
 import com.uzb.telegramchannel.channelservice.repository.QuestionRepository;
 import com.uzb.telegramchannel.channelservice.repository.UserAnsweredRepository;
 import com.uzb.telegramchannel.channelservice.services.SaveIntoDbService;
@@ -29,6 +31,9 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
     private UserAnsweredRepository userAnsweredRepository;
 
     @Autowired
+    private AnsweredActionsRepository answeredActionsRepository;
+
+    @Autowired
     private QuestionRepository questionRepository;
 
     @Override
@@ -41,11 +46,18 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
     @Override
     public void saveAnswer(String data, User from) {
        //Start to save this user and then make check data id of answered question
-       if(!checkExist(from)){
-           saveUser(from);
+       UserAnsweredEntity userAnsweredEntity = saveUser(from);
+       Optional<AnswersEntity> answersEntity = answerRepository.findById(Long.parseLong(data));
+       if(answersEntity.isPresent())
+       {
+           Optional<QuestionEntity> questionEntity =  questionRepository.findById(answersEntity.get().getQuestionEntity().getId());
+           AnsweredActionsEntity answeredActionsEntity = new AnsweredActionsEntity();
+           answeredActionsEntity.setAnswersEntity(answersEntity.get());
+           answeredActionsEntity.setQuestionEntity(questionEntity.get());
+           answeredActionsRepository.save(answeredActionsEntity);
+           userAnsweredEntity.getListAnswers().add(answeredActionsEntity);
+           userAnsweredRepository.save(userAnsweredEntity);
        }
-       answerRepository.findById(Long.parseLong(data));
-
     }
 
     @Override
@@ -55,13 +67,14 @@ public class SaveIntoDbServiceImpl implements SaveIntoDbService {
         questionRepository.save(questionEntity);
     }
 
-    private void saveUser(User from) {
+    private UserAnsweredEntity saveUser(User from) {
         UserAnsweredEntity userAnsweredEntity = userAnsweredEntity();
         userAnsweredEntity.setUserId(Long.parseLong(from.getId() + ""));
         userAnsweredEntity.setFirstName(from.getFirstName());
         userAnsweredEntity.setLastName(from.getLastName());
         userAnsweredEntity.setUserName(from.getUserName());
         userAnsweredRepository.save(userAnsweredEntity);
+        return userAnsweredEntity;
     }
 
     private UserAnsweredEntity userAnsweredEntity(){
